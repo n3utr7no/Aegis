@@ -1,0 +1,35 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*.egg-info
+dist/
+build/
+.venv/
+venv/
+
+# Environment (secrets — loaded at runtime, not baked in)
+.env
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+tests/
+test_*.txt
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
+aegis_vault.db
+moc.py
