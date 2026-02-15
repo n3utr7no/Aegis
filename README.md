@@ -265,6 +265,21 @@ All configuration is via environment variables (or `.env` file). Key settings:
 | `AEGIS_ENABLE_FORGE` | `false` | Enable Forge red-team engine |
 | `AEGIS_ENABLE_ORACLE` | `false` | Enable Oracle scheduled scanning |
 
+## 🔮 Roadmap
+
+Planned features and extensibility targets:
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| **MCP Server** | Expose Aegis as a [Model Context Protocol](https://modelcontextprotocol.io) server so AI agents and IDE tools can invoke Shield, Lens, and Forge capabilities as MCP tools | 🔜 Planned |
+| **Image Content Support** | Extend the ingress pipeline to scan and sanitize image payloads (base64 / URL) in multimodal chat requests via Lens OCR + steganography checks | 🔜 Planned |
+| **Hot Rule Updates** | Forge red-team runs and Oracle vulnerability scans automatically push updated firewall rules (block patterns, threshold tweaks) into Shield's live config — no restart required | 🔜 Planned |
+| **Plugin System** | Drop-in middleware plugins (`aegis/plugins/`) so third-party detectors, custom PII types, or alternative guardrail models can be registered without forking | 🔜 Planned |
+| **Dashboard v2** | Real-time WebSocket-powered security dashboard with attack timelines, PII heatmaps, and Forge run summaries | 🔜 Planned |
+
+> [!TIP]
+> Contributions and feature requests are welcome — open an issue to discuss new ideas.
+
 ## 📄 License
 
 MIT
