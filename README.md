@@ -14,6 +14,47 @@
 
 Aegis is a **transparent security proxy** that sits between your application and any LLM provider. It intercepts API calls to automatically **detect and swap PII**, **inject canary tokens**, **classify prompt injections & jailbreaks**, and **moderate LLM outputs** — all without changing a single line in your application code.
 
+## 🔍 How Aegis Works
+
+Aegis operates as an **invisible middleware layer**. Your application sends requests to Aegis instead of directly to the LLM provider, and Aegis handles every security concern in-flight:
+
+### Ingress Pipeline (Request → LLM)
+
+1. **Content Analysis (Lens)** — Incoming messages are scanned for hidden threats. Images are OCR'd to extract embedded text, Unicode homoglyphs (visually similar characters used to bypass filters) are normalized to their canonical forms, and obfuscated code snippets are flattened into readable representations.
+
+2. **PII Detection & Semantic Vaulting (Shield)** — Named entities like names, emails, phone numbers, and addresses are identified using spaCy NER and regex patterns. Detected PII is replaced with **semantically consistent fake values** (e.g., a real name gets swapped to another plausible name) and the mapping is stored in an encrypted vault. This means the LLM never sees real user data, but still receives a coherent prompt.
+
+3. **Structural Isolation (Shield)** — System-level instructions are wrapped in machine-readable boundary tags that help the LLM distinguish between trusted instructions and user-provided content, reducing the attack surface for prompt injection.
+
+4. **Canary Token Injection (Shield)** — Invisible sentinel tokens are embedded into prompts. If these tokens appear in the LLM's response, it indicates the model is echoing or leaking system instructions — a sign of a successful prompt injection or data exfiltration attempt.
+
+5. **Guardrail Classification (Shield)** — The full prompt is scored for **prompt-injection** and **jailbreak** probability using a configurable classifier backend (Groq cloud API, local ONNX, or HuggingFace Transformers). Requests exceeding the configured thresholds are blocked before they ever reach the LLM.
+
+### Egress Pipeline (LLM → App)
+
+6. **Output Moderation (Shield)** — The LLM's response is checked for harmful, toxic, or policy-violating content before being returned to the calling application.
+
+7. **Canary Detection (Shield)** — The response is scanned for any leaked canary tokens. If found, the response is flagged or blocked, and the incident is logged.
+
+8. **PII Restoration (Shield)** — Semantic placeholders in the response are swapped back to the original real values using the encrypted vault, so the application receives a natural, fully accurate reply.
+
+### Background Operations
+
+- **Red-Team Testing (Forge)** — On demand, Forge generates adversarial prompts designed to probe and break through the active guardrails. A built-in judge evaluates whether the LLM was compromised, and an optimizer iteratively refines attack strategies. Results feed back into tightening Shield's defenses.
+
+- **Vulnerability Scanning (Oracle)** — The Oracle scheduler periodically runs automated security audits against the proxy's own configuration and the upstream LLM, generating structured briefing reports with findings and remediation steps.
+
+## 🎯 Who Is Aegis For
+
+| Audience | Why Aegis Helps |
+|----------|-----------------|
+| **AI/ML Engineers** | Drop Aegis in front of any OpenAI-compatible API to get PII protection, injection detection, and output moderation without modifying application code or ML pipelines. |
+| **Backend & Platform Teams** | Deploy as a sidecar container (Docker / K8s) alongside existing services. One proxy secures every LLM call across your platform. |
+| **Security & Compliance Teams** | Automated PII vaulting helps meet GDPR / HIPAA data-minimization requirements. Canary tokens and guardrails provide auditable evidence of prompt-injection defenses. |
+| **Startups & Indie Developers** | Ship LLM-powered features faster without building bespoke security from scratch. Aegis handles the hard parts so you can focus on your product. |
+| **Red-Team & Pen-Test Professionals** | Use the Forge module to systematically probe LLM deployments for jailbreaks and data leakage, with built-in attack generation, judging, and optimization loops. |
+| **Researchers & Educators** | Study LLM security in a controlled, modular environment. Each module (Shield, Lens, Forge, Oracle) can be enabled independently for targeted experiments. |
+
 ## ✨ Features
 
 | Module | What It Does |
