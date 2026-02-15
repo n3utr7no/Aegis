@@ -45,7 +45,7 @@ Aegis is a **transparent security proxy** that sits between your application and
 
 ```bash
 git clone https://github.com/n3utr7no/Aegis.git
-cd aegis
+cd Aegis
 python -m venv .venv
 ```
 
@@ -115,6 +115,46 @@ python -m aegis
 ### 5. Point Your App at Aegis
 
 Replace your LLM provider's base URL with `http://127.0.0.1:8080` in your application — that's it. Aegis proxies requests transparently.
+
+## 🐳 Docker
+
+The quickest way to run Aegis without installing anything locally.
+
+### Using Docker Compose (recommended)
+
+```bash
+# 1. Copy and configure your environment
+cp .env.example .env   # then edit .env with your keys
+
+# 2. Build and start
+docker compose up -d
+
+# 3. Check health
+docker compose ps
+```
+
+### Using Docker Directly
+
+```bash
+# Build the image
+docker build -t aegis .
+
+# Run the container
+docker run -d \
+  --name aegis-proxy \
+  -p 8080:8080 \
+  --env-file .env \
+  -e AEGIS_HOST=0.0.0.0 \
+  --restart unless-stopped \
+  aegis
+```
+
+### Key Notes
+
+- The `.env` file is **not** baked into the image (for security); it is loaded at runtime via `--env-file` or `env_file` in Compose.
+- The default exposed port is **8080** — override with `AEGIS_PORT` in `.env`.
+- A built-in **health check** pings `http://localhost:8080/` every 30 seconds.
+- Tesseract OCR is pre-installed in the image for Lens OCR scanning.
 
 ## 🏗️ Architecture
 
