@@ -92,7 +92,7 @@ def create_routes(
             hardened_messages, context = middleware.process_ingress(request)
 
             # 2. Async parallel: guardrail + LLM
-            upstream_url = config.upstream_url
+            upstream_url = config.upstream_url.rstrip("/")
             if not upstream_url:
                 raise HTTPException(
                     status_code=502,
