@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aegis"
+version = "0.1.0"
+description = "Aegis: The Self-Evolving Security Sidecar for LLM Applications"
+requires-python = ">=3.11"
+dependencies = [
+    "aiohttp>=3.9",
+    "pydantic>=2.0",
+    "cryptography>=42.0",
+    "faker>=22.0",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.0",
+    "Pillow>=10.0",
+]
+
+[project.optional-dependencies]
+ocr = ["pytesseract>=0.3"]
+guardrail = ["transformers>=4.40", "torch>=2.0"]
+guardrail-onnx = ["optimum[onnxruntime]>=1.17"]
+guardrail-groq = ["groq>=0.4"]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "python-dotenv>=1.0",
+    "pytest-cov>=4.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-v --tb=short"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["aegis*"]
