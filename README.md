@@ -273,7 +273,7 @@ Planned features and extensibility targets:
 |---------|-------------|--------|
 | **MCP Server** | Expose Aegis as a [Model Context Protocol](https://modelcontextprotocol.io) server so AI agents and IDE tools can invoke Shield, Lens, and Forge capabilities as MCP tools | 🔜 Planned |
 | **Image Content Support** | Extend the ingress pipeline to scan and sanitize image payloads (base64 / URL) in multimodal chat requests via Lens OCR + steganography checks | 🔜 Planned |
-| **Hot Rule Updates** | Forge red-team runs and Oracle vulnerability scans automatically push updated firewall rules (block patterns, threshold tweaks) into Shield's live config — no restart required | 🔜 Planned |
+| **Hot Rule Updates** | Forge red-team runs and Oracle vulnerability scans wont automatically push updated firewall rules (block patterns, threshold tweaks) but will require the admin's permission into Shield's live config — no restart required | 🔜 Planned |
 | **Plugin System** | Drop-in middleware plugins (`aegis/plugins/`) so third-party detectors, custom PII types, or alternative guardrail models can be registered without forking | 🔜 Planned |
 | **Dashboard v2** | Real-time WebSocket-powered security dashboard with attack timelines, PII heatmaps, and Forge run summaries | 🔜 Planned |
 
