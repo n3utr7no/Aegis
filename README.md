@@ -10,6 +10,7 @@
 </p>
 
 ---
+**Live Link:** https://aegis-abhaygoyal374.replit.app
 
 Aegis is a **transparent security proxy** that sits between your application and any LLM provider. It intercepts API calls to automatically **detect and swap PII**, **inject canary tokens**, **classify prompt injections & jailbreaks**, and **moderate LLM outputs** — all without changing a single line in your application code.
 
